@@ -46,7 +46,7 @@ sudo chroot ${ROOTFS} mkdir -p /var/lib/docker /etc/{docker,docker.rw}
 # Use overlay as the default storage-driver
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/docker/daemon.json
 {
-  "storage-driver": "overlay2"
+  \"storage-driver\": \"overlay2\"
 }
 EOF
 "
