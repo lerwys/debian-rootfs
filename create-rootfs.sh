@@ -9,6 +9,8 @@ ROOTFS=$4
 GENERIC_USER=$5
 ROOTFS_IP=$6
 
+CURDIR="$(dirname $(readlink -f $0))"
+
 ## Begin Installation of ROOTFS
 sudo apt-get install -y \
     debootstrap \
@@ -43,7 +45,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
     nfs-common
 
 # Install Docker
-./install-docker.sh ${ROOTFS} ${GENERIC_USER}
+${CURDIR}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
 
 # Setup home mounts
 sudo bash -c "echo -e "\n# Automount NFS partitions\n/home   /etc/auto.home" \

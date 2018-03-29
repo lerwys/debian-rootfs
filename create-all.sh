@@ -14,6 +14,7 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 EXPORTDIR=exports
 TOPDIR=${SCRIPTPATH}/${EXPORTDIR}
 ROOTFS=${TOPDIR}/${ROOTFSREL}
+CURDIR="$(dirname $(readlink -f $0))"
 
 # Ask sudo password only once and
 # keep updating sudo timestamp to
@@ -23,7 +24,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || \
     exit; done 2>/dev/null &
 
 # Setup rootfs
-./create-rootfs.sh \
+${CURDIR}/create-rootfs.sh \
     ${TOPDIR} \
     ${DEBIAN_URL} \
     ${DEBIAN_FLAVOR} \
@@ -32,5 +33,5 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || \
     ${ROOTFS_IP}
 
 # Setup homes
-./create-homes.sh \
+${CURDIR}/create-homes.sh \
     ${TOPDIR}

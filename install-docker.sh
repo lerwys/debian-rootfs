@@ -5,6 +5,8 @@ set -eux
 ROOTFS=$1
 GENERIC_USER=$2
 
+CURDIR="$(dirname $(readlink -f $0))"
+
 ## Begin Installation of Docker
 
 sudo chroot ${ROOTFS} apt-get update
