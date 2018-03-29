@@ -71,7 +71,7 @@ EOF
 
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-docker-overlay.service
 [Unit]
-Description=Mount /etc/docker as an overlay fielsystem
+Description=Mount /etc/docker as an overlay filesystem
 RequiresMountsFor=/etc/docker.rw
 Before=docker.service
 Requires=docker.service
