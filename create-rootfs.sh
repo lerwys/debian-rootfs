@@ -113,3 +113,6 @@ EOF
 "
 
 sudo chroot ${ROOTFS} systemctl enable bootstrap-apps
+
+# After setting up everything unmount special filesystems
+sudo bash -c "chroot ${ROOTFS} umount /proc || true"
