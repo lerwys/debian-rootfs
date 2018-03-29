@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eux
 
 TOPDIR=$1
 ROOTFSREL=rootfs

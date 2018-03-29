@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -euxo pipefail
 
 TOPDIR=$1
 DEBIAN_URL=$2

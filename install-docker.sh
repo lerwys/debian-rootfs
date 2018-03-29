@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eux
 
 ROOTFS=$1
 GENERIC_USER=$2

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eux
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 EXPORTDIR=exports
