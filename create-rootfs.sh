@@ -29,9 +29,8 @@ sudo chroot ${ROOTFS} bash -c "id -u ${GENERIC_USER} &>/dev/null || adduser ${GE
 # Setup special filesystems so some programs don't fail
 # when installing
 sudo ln -sf /proc/mounts ${ROOTFS}/etc/mtab
-sudo ln -sf ${ROOTFS}/proc/self/fd ${ROOTFS}/dev/fd || true
-
-sudo mount -t proc proc ${ROOTFS}/proc/ || true
+sudo mkdir -p ${ROOTFS}/proc/self/fd && \
+    sudo ln -sf /proc/self/fd ${ROOTFS}/dev || true
 
 # Install packages
 sudo chroot ${ROOTFS} apt-get update
