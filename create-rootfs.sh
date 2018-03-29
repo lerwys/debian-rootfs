@@ -116,5 +116,8 @@ EOF
 
 sudo chroot ${ROOTFS} systemctl enable bootstrap-apps
 
+# Clear hostname as this will be assigned from DHCP server
+sudo bash -c "echo \"\" > ${ROOTFS}/etc/hostname"
+
 # After setting up everything unmount special filesystems
 sudo bash -c "chroot ${ROOTFS} umount /proc || true"
