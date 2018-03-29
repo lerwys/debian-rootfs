@@ -77,12 +77,12 @@ Before=docker.service
 Requires=docker.service
 
 [Service]
-ExecStart=/bin/sh -c " \
+ExecStart=/bin/sh -c \" \
     /bin/mkdir -p /etc/docker.rw/rw && \
     /bin/mkdir -p /etc/docker.rw/workdir && \
     /bin/mount -t overlay overlay \
         -olowerdir=/etc/docker,upperdir=/etc/docker.rw/rw,workdir=/etc/docker.rw/workdir /etc/docker \
-"
+\"
 
 [Install]
 WantedBy=multi-user.target
