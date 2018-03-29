@@ -18,7 +18,7 @@ sudo apt-get install -y \
 mkdir -p ${ROOTFS}
 
 # Setup rootfs only if not there
-[ -z ${ROOTFS} ] && sudo debootstrap ${DEBIAN_FLAVOR} ${ROOTFS} ${DEBIAN_URL}
+[ -z ${ROOTFS} ] || sudo debootstrap ${DEBIAN_FLAVOR} ${ROOTFS} ${DEBIAN_URL}
 
 # Create users
 sudo chroot ${ROOTFS} passwd root
