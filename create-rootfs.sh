@@ -32,6 +32,7 @@ sudo chroot ${ROOTFS} bash -c "id -u ${GENERIC_USER} &>/dev/null || adduser ${GE
 # when installing
 sudo ln -sf /proc/mounts ${ROOTFS}/etc/mtab
 sudo chroot ${ROOTFS} mount -t proc proc /proc
+sudo mkdir -p ${ROOTFS}/proc/self/fd
 sudo ln -sf /proc/self/fd ${ROOTFS}/dev || true
 
 # Install packages
