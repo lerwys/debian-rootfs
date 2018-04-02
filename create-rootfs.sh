@@ -41,6 +41,8 @@ sudo chroot ${ROOTFS} apt-get install -y \
     initramfs-tools \
     linux-image-amd64 \
     autofs \
+    thin-provisioning-tools \
+    fuse \
     openssh-server \
     nfs-common \
     vim \
