@@ -42,7 +42,10 @@ sudo chroot ${ROOTFS} apt-get install -y \
     linux-image-amd64 \
     autofs \
     openssh-server \
-    nfs-common
+    nfs-common \
+    vim \
+    git \
+    ntp
 
 # Install Docker
 ${CURDIR}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
