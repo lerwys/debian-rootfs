@@ -28,6 +28,7 @@ sudo chroot ${ROOTFS} usermod -d /home/root root
 
 sudo chroot ${ROOTFS} bash -c "id -u ${GENERIC_USER} &>/dev/null || adduser ${GENERIC_USER}"
 sudo chroot ${ROOTFS} adduser ${GENERIC_USER} sudo
+sudo chroot ${ROOTFS} mkdir -p /home/${GENERIC_USER}
 
 # Setup special filesystems so some programs don't fail
 # when installing
