@@ -23,7 +23,7 @@ done
 
 # Configure homes
 for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << EOF > ${home}/bootstrap-apps.sh
+    sudo bash -c "cat << "EOF" > ${home}/bootstrap-apps.sh
 #!/usr/bin/env bash
 
 set -ueo pipefail
@@ -33,21 +33,21 @@ IMAGE_VERSION=debian-9
 
 # Testing Image
 /usr/bin/docker pull \
-    digdockerregistry.com.br/dmm7510-epics-ioc:\${IMAGE_VERSION}
+    digdockerregistry.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION}
 
 /usr/bin/docker create \
     -v /opt/epics/startup/ioc/dmm7510-epics-ioc/iocBoot/iocdmm7510/autosave \
-    --name dmm7510-epics-ioc-\${DMM7510_INSTANCE}-volume \
-    digdockerregistry.com.br/dmm7510-epics-ioc:\${IMAGE_VERSION} \
+    --name dmm7510-epics-ioc-\\\${DMM7510_INSTANCE}-volume \
+    digdockerregistry.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION} \
     2>/dev/null || true
 
 /usr/bin/docker run \
     --net host \
     -t \
     --rm \
-    --volumes-from dmm7510-epics-ioc-\${DMM7510_INSTANCE}-volume \
-    --name dmm7510-epics-ioc-\${DMM7510_INSTANCE} \
-    digdockerregistry.com.br/dmm7510-epics-ioc:\${IMAGE_VERSION} \
+    --volumes-from dmm7510-epics-ioc-\\\${DMM7510_INSTANCE}-volume \
+    --name dmm7510-epics-ioc-\\\${DMM7510_INSTANCE} \
+    digdockerregistry.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION} \
     -i 10.0.18.37 \
     -p 5025 \
     -d DCCT1 \
