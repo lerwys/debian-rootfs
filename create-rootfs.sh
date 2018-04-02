@@ -38,8 +38,10 @@ sudo ln -sf /proc/self/fd ${ROOTFS}/dev || true
 sudo chroot ${ROOTFS} apt-get update
 sudo chroot ${ROOTFS} apt-get install -y \
     udev \
+    coreutils \
     initramfs-tools \
     linux-image-amd64 \
+    linux-headers-amd64 \
     autofs \
     thin-provisioning-tools \
     fuse \
