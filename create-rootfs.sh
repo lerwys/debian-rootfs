@@ -57,7 +57,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
 ${CURDIR}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
 
 # Setup home mounts
-sudo bash -c "echo -e "\n# Automount NFS partitions\n/home   /etc/auto.home" \
+sudo bash -c "echo -e '\n# Automount NFS partitions\n/home   /etc/auto.home' \
     >> ${ROOTFS}/etc/auto.master"
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/auto.home
 ${GENERIC_USER}   ${ROOTFS_IP}:/nfshome/\$HOST
