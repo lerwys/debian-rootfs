@@ -23,6 +23,10 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || \
     exit; done 2>/dev/null &
 
+# Check if repo was cloned with submodules
+[ ! -z "$(ls -A ./foreign/docker-registry-certs)" ] || \
+    git submodule update --init
+
 # Setup rootfs
 ${CURDIR}/create-rootfs.sh \
     ${TOPDIR} \
