@@ -52,7 +52,8 @@ sudo chroot ${ROOTFS} apt-get install -y \
     nfs-common \
     vim \
     git \
-    ntp
+    ntp \
+    dnsutils
 
 # Install Docker
 ${CURDIR}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
