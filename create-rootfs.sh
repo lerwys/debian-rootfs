@@ -78,6 +78,7 @@ none                 /tmp       tmpfs   defaults   0 0
 none                 /var/tmp   tmpfs   defaults   0 0
 none                 /media     tmpfs   defaults   0 0
 none                 /var/log   tmpfs   defaults   0 0
+none                 /var/lib/dhcp   tmpfs   defaults   0 0
 none                 /etc/docker.rw   tmpfs   defaults   0 0
 none                 /var/lib/docker   tmpfs   defaults   0 0
 EOF
