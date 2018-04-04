@@ -1,0 +1,3 @@
+[submodule "foreign/docker-registry-certs"]
+	path = foreign/docker-registry-certs
+	url = https://github.com/lerwys/docker-registry-certs
