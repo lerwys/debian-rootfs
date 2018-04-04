@@ -119,9 +119,6 @@ EOF
 
 sudo chroot ${ROOTFS} systemctl enable mount-docker-overlay
 
-# Setup network
-sudo bash -c "echo "${ROOTFS_IP} digdockerregistry.com.br" >> ${ROOTFS}/etc/hosts"
-
 # Add bootstrap script for homes
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/bootstrap-apps.service
 [Unit]
