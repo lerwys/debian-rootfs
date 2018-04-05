@@ -2,18 +2,11 @@
 
 set -eu
 
-# User modifiable
-DEBIAN_URL="http://ftp.us.debian.org/debian"
-DEBIAN_FLAVOR=stretch
-ROOTFSREL=rootfs
-GENERIC_USER=server
-ROOTFS_IP="192.168.2.12"
-
 # Flavored variables
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-EXPORTDIR=exports
-TOPDIR=${SCRIPTPATH}/${EXPORTDIR}
-ROOTFS=${TOPDIR}/${ROOTFSREL}
+
+. ${SCRIPTPATH}/env-vars.sh
+
 CURDIR="$(dirname $(readlink -f $0))"
 
 # Ask sudo password only once and
