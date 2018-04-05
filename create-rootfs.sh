@@ -80,6 +80,10 @@ EOF
     "
 done
 
+# Create .rw folders to mount as overlay
+sudo mkdir -p ${ROOTFS}/var/lib/nfs.rw
+sudo mkdir -p ${ROOTFS}/etc/docker.rw
+
 # Setup Docker special folder as we are in a NFS, and some folders
 # need to be RW and others needs to be RW, but overlayied with
 # some previous configuration files (like /etc/docker)
