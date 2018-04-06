@@ -28,5 +28,5 @@ bash -c "\
         --exclude=./usr/src/linux-headers* \
         --exclude=./var/log \
         . && \
-        mv rootfs.tar.gz ${SCRIPTPATH}
+    sudo mv rootfs.tar.gz ${SCRIPTPATH}
 "
