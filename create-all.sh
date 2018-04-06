@@ -31,4 +31,5 @@ ${CURDIR}/create-rootfs.sh \
 
 # Setup homes
 ${CURDIR}/create-homes.sh \
-    ${TOPDIR}
+    ${TOPDIR} \
+    ${HOMES[@]}

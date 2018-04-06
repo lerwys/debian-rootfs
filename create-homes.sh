@@ -3,16 +3,8 @@
 set -eux
 
 TOPDIR=$1
-
-HOMESREL=()
-HOMESREL+=("home/dell-r230-server-1")
-HOMESREL+=("home/dell-r230-server-2")
-
-# Prefix homes array
-HOMES=()
-for homes in "${HOMESREL[@]}"; do
-    HOMES+=(${TOPDIR}/${homes})
-done
+shift 1
+HOMES=("$@")
 
 ## Begin Installation of HOMES
 
