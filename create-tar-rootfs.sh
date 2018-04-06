@@ -8,7 +8,13 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 
 # Setup rootfs only if not there
 [ ! -z "$(ls -A ${ROOTFS})" ] || \
-    ${SCRIPTPATH}/create-all.sh
+    ${SCRIPTPATH}/create-rootfs.sh \
+        ${TOPDIR} \
+        ${DEBIAN_URL} \
+        ${DEBIAN_FLAVOR} \
+        ${ROOTFS} \
+        ${GENERIC_USER} \
+        ${ROOTFS_IP}
 
 sudo bash -c "\
     cd ${ROOTFS} && \
