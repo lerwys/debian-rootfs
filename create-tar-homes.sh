@@ -17,5 +17,5 @@ bash -c "\
     tar -cvpzf homefs.tar.gz \
         --exclude=./homefs.tar.gz \
         . && \
-        mv homefs.tar.gz ${SCRIPTPATH}
+    mv homefs.tar.gz ${SCRIPTPATH}
 "
