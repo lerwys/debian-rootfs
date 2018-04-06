@@ -22,7 +22,6 @@ bash -c "\
         --exclude=./rootfs.tar.gz \
         --exclude=./tmp \
         --exclude=./mnt \
-        --exclude=./run \
         --exclude=./media \
         --exclude=./var/cache/apt/archives \
         --exclude=./usr/src/linux-headers* \
