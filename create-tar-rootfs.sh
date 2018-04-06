@@ -20,12 +20,12 @@ bash -c "\
     cd ${ROOTFS} && \
     sudo tar -cvpzf rootfs.tar.gz \
         --exclude=./rootfs.tar.gz \
-        --exclude=./tmp \
-        --exclude=./mnt \
-        --exclude=./media \
+        --exclude=./tmp/* \
+        --exclude=./mnt/* \
+        --exclude=./media/* \
         --exclude=./var/cache/apt/archives \
         --exclude=./usr/src/linux-headers* \
-        --exclude=./var/log \
+        --exclude=./var/log/* \
         . && \
     sudo mv rootfs.tar.gz ${SCRIPTPATH}
 "
