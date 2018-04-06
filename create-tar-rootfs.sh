@@ -11,13 +11,16 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
     ${SCRIPTPATH}/create-all.sh
 
 sudo bash -c "\
+    cd ${ROOTFS} && \
     tar -cvpzf rootfs.tar.gz \
-        --exclude=${ROOTFS}/tmp \
-        --exclude=${ROOTFS}/mnt \
-        --exclude=${ROOTFS}/run \
-        --exclude=${ROOTFS}/media \
-        --exclude=${ROOTFS}/var/cache/apt/archives \
-        --exclude=${ROOTFS}/usr/src/linux-headers* \
-        --exclude=${ROOTFS}/var/log \
-        ${ROOTFS}
+        --exclude=./rootfs.tar.gz \
+        --exclude=./tmp \
+        --exclude=./mnt \
+        --exclude=./run \
+        --exclude=./media \
+        --exclude=./var/cache/apt/archives \
+        --exclude=./usr/src/linux-headers* \
+        --exclude=./var/log \
+        . && \
+        mv rootfs.tar.gz ${SCRIPTPATH}
 "
