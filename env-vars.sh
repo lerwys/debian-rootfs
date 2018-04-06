@@ -6,6 +6,7 @@ set -ue
 DEBIAN_URL="http://ftp.us.debian.org/debian"
 DEBIAN_FLAVOR=stretch
 ROOTFSREL=rootfs
+HOMESREL=home
 GENERIC_USER=server
 ROOTFS_IP="192.168.2.12"
 
@@ -15,12 +16,14 @@ TOPDIR=${SCRIPTPATH}/${EXPORTDIR}
 ROOTFS=${TOPDIR}/${ROOTFSREL}
 
 # Home variables
-HOMESREL=()
-HOMESREL+=("home/dell-r230-server-1")
-HOMESREL+=("home/dell-r230-server-2")
+HOMESFS=${TOPDIR}/${HOMESREL}
+
+HOMESNAMES=()
+HOMESNAMES+=("dell-r230-server-1")
+HOMESNAMES+=("dell-r230-server-2")
 
 # Prefix homes array
 HOMES=()
-for homes in "${HOMESREL[@]}"; do
-    HOMES+=(${TOPDIR}/${homes})
+for homes in "${HOMESNAMES[@]}"; do
+    HOMES+=(${HOMESFS}/${homes})
 done
