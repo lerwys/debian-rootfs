@@ -16,9 +16,9 @@ SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
         ${GENERIC_USER} \
         ${ROOTFS_IP}
 
-sudo bash -c "\
+bash -c "\
     cd ${ROOTFS} && \
-    tar -cvpzf rootfs.tar.gz \
+    sudo tar -cvpzf rootfs.tar.gz \
         --exclude=./rootfs.tar.gz \
         --exclude=./tmp \
         --exclude=./mnt \
