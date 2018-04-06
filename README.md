@@ -14,3 +14,19 @@ NFS-server available here: https://github.com/lnls-sirius/docker-nfs-server
 ### Build rootfs/homes
 
     ./create-all.sh
+
+### Create rootfs TAR
+
+    ./create-tar-rootfs.sh
+
+### Create homefs TAR
+
+    ./create-tar-homefs.sh
+
+### Create image containing entire rootfs (for usage as a volume in nfs-server)
+
+    docker build -f Dockerfile.rootfs -t lnls/debian9-rootfs .
+
+### Create image containing entire homefs (for usage as a volume in nfs-server)
+
+    docker build -f Dockerfile.homefs -t lnls/debian9-homefs .
