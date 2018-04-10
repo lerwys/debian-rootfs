@@ -26,7 +26,7 @@ services:
   dmm7510-epics-ioc:
     image: dockerregistry.lnls-sirius.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION}
     container_name: dmm7510-epics-ioc-dcct-1
-    command: -i 10.0.18.37 -p 5025 -d \\\${DMM7510_INSTANCE} -P TEST: -R DCCT1:
+    command: \"-i 10.0.18.37 -p 5025 -d \\\${DMM7510_INSTANCE} -P TEST: -R DCCT1:\"
     volumes:
       - type: bind
         source: ${EPICSAUTOSAVE}
