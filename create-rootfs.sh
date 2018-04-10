@@ -161,6 +161,9 @@ Requires=mount-docker-overlay.service
 ExecStartPre=-/home/server/bootstrap-start-pre-apps.sh
 ExecStart=/usr/local/bin/bootstrap-apps/bootstrap-start.sh /home/server
 ExecStartPost=-/home/server/bootstrap-start-post-apps.sh
+ExecStopPre=-/home/server/bootstrap-stop-pre-apps.sh
+ExecStop=/usr/local/bin/bootstrap-apps/bootstrap-stop.sh /home/server
+ExecStopPost=-/home/server/bootstrap-stop-post-apps.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -170,6 +173,7 @@ EOF
 sudo chroot ${ROOTFS} systemctl enable bootstrap-apps
 
 sudo mkdir -p ${ROOTFS}/usr/local/bin/bootstrap-apps
+
 # Add bootstrap start
 sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-start.sh
 #!/usr/bin/env bash
@@ -189,6 +193,26 @@ EOF
 "
 
 sudo chmod +x ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-start.sh
+
+# Add bootstrap stop
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-stop.sh
+#!/usr/bin/env bash
+
+set -u
+
+EXEC_FOLDER=\\\$1
+
+# Get all docker-compose files
+COMPOSE_FILES=\\\$(ls \\\${EXEC_FOLDER} | grep -E \"^[0-9][0-9].*.(yml|yaml)\")
+
+# Stop docker compose
+for files in \\\${COMPOSE_FILES}; do
+    docker-compose -f \\\${files} down
+done
+EOF
+"
+
+sudo chmod +x ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-stop.sh
 
 # Clear hostname as this will be assigned from DHCP server
 sudo bash -c "echo \"\" > ${ROOTFS}/etc/hostname"
