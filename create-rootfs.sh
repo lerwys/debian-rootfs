@@ -2,6 +2,7 @@
 
 set -euxo pipefail
 
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 TOPDIR=$1
 DEBIAN_URL=$2
 DEBIAN_FLAVOR=$3
@@ -9,7 +10,7 @@ ROOTFS=$4
 GENERIC_USER=$5
 ROOTFS_IP=$6
 
-CURDIR="$(dirname $(readlink -f $0))"
+. ${SCRIPTPATH}/env-vars.sh
 
 ## Begin Installation of ROOTFS
 sudo apt-get install -y \
@@ -57,7 +58,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
     dnsutils
 
 # Install Docker
-${CURDIR}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
+${SCRIPTPATH}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
 
 # Setup home mounts
 AUTOFS_HOST='\$HOST'

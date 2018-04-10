@@ -2,6 +2,7 @@
 
 set -eux
 
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 TOPDIR=$1
 shift 1
 HOMES=("$@")

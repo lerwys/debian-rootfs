@@ -3,11 +3,9 @@
 set -eu
 
 # Flavored variables
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 . ${SCRIPTPATH}/env-vars.sh
-
-CURDIR="$(dirname $(readlink -f $0))"
 
 # Ask sudo password only once and
 # keep updating sudo timestamp to
@@ -21,7 +19,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || \
     git submodule update --init
 
 # Setup rootfs
-${CURDIR}/create-rootfs.sh \
+${SCRIPTPATH}/create-rootfs.sh \
     ${TOPDIR} \
     ${DEBIAN_URL} \
     ${DEBIAN_FLAVOR} \
@@ -30,6 +28,7 @@ ${CURDIR}/create-rootfs.sh \
     ${ROOTFS_IP}
 
 # Setup homes
+${SCRIPTPATH}/create-homes.sh \
 ${CURDIR}/create-homes.sh \
     ${TOPDIR} \
     ${HOMES[@]}

@@ -2,6 +2,8 @@
 
 set -ue
 
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
+
 # User modifiable
 DEBIAN_URL="http://ftp.us.debian.org/debian"
 DEBIAN_FLAVOR=stretch
