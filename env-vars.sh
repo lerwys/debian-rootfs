@@ -19,14 +19,19 @@ ROOTFS=${TOPDIR}/${ROOTFSREL}
 
 # Home variables
 HOMESFS=${TOPDIR}/${HOMESREL}
-
-HOMESNAMES=()
-HOMESNAMES+=("dell-r230-server-1")
-HOMESNAMES+=("dell-r230-server-2")
+HOMESNAMES_PREFIX="homes"
+HOMESNAMES_STR=$(ls ${SCRIPTPATH}/${HOMESNAMES_PREFIX})
+HOMESNAMES=(${HOMESNAMES_STR})
 EPICSAUTOSAVE="/media/local/autosave"
 
 # Prefix homes array
 HOMES=()
 for homes in "${HOMESNAMES[@]}"; do
     HOMES+=(${HOMESFS}/${homes})
+done
+
+# Prefix homes build array
+HOMESNAMES_FULL=()
+for homes in "${HOMESNAMES[@]}"; do
+    HOMESNAMES_FULL+=(${HOMESNAMES_PREFIX}/${homes})
 done
