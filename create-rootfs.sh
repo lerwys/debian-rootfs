@@ -187,7 +187,7 @@ COMPOSE_FILES=\\\$(ls \\\${EXEC_FOLDER} | grep -E \"^[0-9][0-9].*.(yml|yaml)\")
 
 # Run docker compose
 for files in \\\${COMPOSE_FILES}; do
-    docker-compose -f \\\${files} up -d
+    docker-compose -f \\\${EXEC_FOLDER}/\\\${files} up -d
 done
 EOF
 "
@@ -207,7 +207,7 @@ COMPOSE_FILES=\\\$(ls \\\${EXEC_FOLDER} | grep -E \"^[0-9][0-9].*.(yml|yaml)\")
 
 # Stop docker compose
 for files in \\\${COMPOSE_FILES}; do
-    docker-compose -f \\\${files} down
+    docker-compose -f \\\${EXEC_FOLDER}/\\\${files} down
 done
 EOF
 "
