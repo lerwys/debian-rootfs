@@ -57,3 +57,12 @@ EOF
 
     sudo chmod +x ${home}/bootstrap-stop-post-apps.sh
 done
+
+################################################
+### Configure docker-compose folder
+###############################################
+
+for home in "${HOMESNAMES[@]}"; do
+    ${HOMESNAMES_PREFIX}/${home}/create-home.sh \
+        ${HOMESFS}/${home}
+done
