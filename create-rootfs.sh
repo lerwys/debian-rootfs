@@ -33,7 +33,7 @@ sudo chroot ${ROOTFS} mkdir -p /home/${GENERIC_USER}
 # Setup special filesystems so some programs don't fail
 # when installing
 sudo ln -sf /proc/mounts ${ROOTFS}/etc/mtab
-sudo chroot ${ROOTFS} mount -t proc proc /proc
+sudo chroot ${ROOTFS} mount -t proc proc /proc || true
 sudo mkdir -p ${ROOTFS}/proc/self/fd
 sudo ln -sf /proc/self/fd ${ROOTFS}/dev || true
 
