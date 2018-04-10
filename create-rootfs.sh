@@ -174,7 +174,7 @@ sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-st
 #!/usr/bin/env bash
 
 EXEC_FOLDER_RAW=\\\$1
-EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -d \"/\")
+EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
 
 # Get all docker-compose folders
 COMPOSE_FOLDERS_REL=\\\$(find \\\${EXEC_FOLDER} -maxdepth 1 -type d -exec basename \"{}\" \; | \\\\
