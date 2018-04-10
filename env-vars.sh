@@ -23,6 +23,7 @@ HOMESFS=${TOPDIR}/${HOMESREL}
 HOMESNAMES=()
 HOMESNAMES+=("dell-r230-server-1")
 HOMESNAMES+=("dell-r230-server-2")
+EPICSAUTOSAVE="/media/local/autosave"
 
 # Prefix homes array
 HOMES=()

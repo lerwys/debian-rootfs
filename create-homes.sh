@@ -3,11 +3,8 @@
 set -eux
 
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
-TOPDIR=$1
-shift 1
-HOMES=("$@")
 
-EPICS_AUTOSAVE="/media/local/autosave"
+. ${SCRIPTPATH}/env-vars.sh
 
 ## Begin Installation of HOMES
 
@@ -20,7 +17,7 @@ done
 for home in "${HOMES[@]}"; do
     sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-pre-apps.sh
 #!/usr/bin/env bash
-mkdir -p ${EPICS_AUTOSAVE}
+mkdir -p ${EPICSAUTOSAVE}
 EOF
 "
 

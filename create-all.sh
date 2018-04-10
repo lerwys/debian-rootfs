@@ -20,15 +20,6 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || \
 
 # Setup rootfs
 ${SCRIPTPATH}/create-rootfs.sh \
-    ${TOPDIR} \
-    ${DEBIAN_URL} \
-    ${DEBIAN_FLAVOR} \
-    ${ROOTFS} \
-    ${GENERIC_USER} \
-    ${ROOTFS_IP}
 
 # Setup homes
 ${SCRIPTPATH}/create-homes.sh \
-${CURDIR}/create-homes.sh \
-    ${TOPDIR} \
-    ${HOMES[@]}

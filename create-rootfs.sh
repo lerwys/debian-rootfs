@@ -3,12 +3,6 @@
 set -euxo pipefail
 
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
-TOPDIR=$1
-DEBIAN_URL=$2
-DEBIAN_FLAVOR=$3
-ROOTFS=$4
-GENERIC_USER=$5
-ROOTFS_IP=$6
 
 . ${SCRIPTPATH}/env-vars.sh
 
