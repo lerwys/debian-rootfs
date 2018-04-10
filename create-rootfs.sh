@@ -173,17 +173,28 @@ sudo mkdir -p ${ROOTFS}/usr/local/bin/bootstrap-apps
 sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-start.sh
 #!/usr/bin/env bash
 
-set -u
+EXEC_FOLDER_RAW=\\\$1
+EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -d \"/\")
 
-EXEC_FOLDER=\\\$1
+# Get all docker-compose folders
+COMPOSE_FOLDERS_REL=\\\$(find \\\${EXEC_FOLDER} -maxdepth 1 -type d -exec basename \"{}\" \; | \\\\
+    grep -E \"^[0-9][0-9].*\" | sort)
 
-# Get all docker-compose files
-COMPOSE_FILES=\\\$(ls \\\${EXEC_FOLDER} | grep -E \"^[0-9][0-9].*.(yml|yaml)\")
-
-# Run docker compose
-for files in \\\${COMPOSE_FILES}; do
-    docker-compose -f \\\${EXEC_FOLDER}/\\\${files} up -d
+COMPOSE_FOLDERS=()
+for cfolders in \\\${COMPOSE_FOLDERS_REL}; do
+    COMPOSE_FOLDERS+=(\\\${EXEC_FOLDER}/\\\${cfolders})
 done
+
+if [ ! -z "\\\${COMPOSE_FOLDERS}" ]; then
+    # Run docker compose
+    for dir in \\\${COMPOSE_FOLDERS[@]}; do
+        COMPOSE_FILES=\\\$(ls \\\${dir} | grep -E \"^[0-9][0-9].*.(yml|yaml)\" | sort)
+
+        for file in \\\${COMPOSE_FILES}; do
+            docker-compose -f \\\${dir}/\\\${file} up -d
+        done
+    done
+fi
 EOF
 "
 
