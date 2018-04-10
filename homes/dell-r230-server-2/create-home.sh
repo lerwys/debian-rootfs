@@ -29,8 +29,8 @@ services:
     command: \"-i 10.0.18.37 -p 5025 -d \\\${DMM7510_INSTANCE} -P TEST2: -R DCCT2:\"
     volumes:
       - type: bind
-        source: ${EPICSAUTOSAVE}
-        target: /opt/epics/startup/ioc/dmm7510-epics-ioc/iocBoot/iocdmm7510/autosave
+        source: \"${EPICSAUTOSAVE}\"
+        target: \"/opt/epics/startup/ioc/dmm7510-epics-ioc/iocBoot/iocdmm7510/autosave\"
     network_mode: \"host\"
 EOF
 "
