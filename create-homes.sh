@@ -68,3 +68,23 @@ volumes:
 EOF
 "
 done
+
+# Configure stop pre
+for home in "${HOMES[@]}"; do
+    sudo bash -c "cat << "EOF" > ${home}/bootstrap-stop-pre-apps.sh
+#!/usr/bin/env bash
+EOF
+"
+
+    sudo chmod +x ${home}/bootstrap-stop-pre-apps.sh
+done
+
+# Configure stop post
+for home in "${HOMES[@]}"; do
+    sudo bash -c "cat << "EOF" > ${home}/bootstrap-stop-post-apps.sh
+#!/usr/bin/env bash
+EOF
+"
+
+    sudo chmod +x ${home}/bootstrap-stop-post-apps.sh
+done
