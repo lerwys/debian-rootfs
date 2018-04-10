@@ -6,6 +6,8 @@ TOPDIR=$1
 shift 1
 HOMES=("$@")
 
+EPICS_AUTOSAVE="/media/local/autosave"
+
 ## Begin Installation of HOMES
 
 # Create homes dirs
@@ -13,40 +15,56 @@ for home in "${HOMES[@]}"; do
     mkdir -p ${home}
 done
 
-# Configure homes
+# Configure start pre
 for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << "EOF" > ${home}/bootstrap-apps.sh
+    sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-pre-apps.sh
 #!/usr/bin/env bash
-
-set -ueo pipefail
-
-DMM7510_INSTANCE=DCCT1
-IMAGE_VERSION=debian-9
-
-# Testing Image
-/usr/bin/docker pull \\\\
-    dockerregistry.lnls-sirius.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION}
-
-/usr/bin/docker create \\\\
-    -v /opt/epics/startup/ioc/dmm7510-epics-ioc/iocBoot/iocdmm7510/autosave \\\\
-    --name dmm7510-epics-ioc-\\\${DMM7510_INSTANCE}-volume \\\\
-    dockerregistry.lnls-sirius.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION} \\\\
-    2>/dev/null || true
-
-/usr/bin/docker run \\\\
-    --net host \\\\
-    -t \\\\
-    --rm \\\\
-    --volumes-from dmm7510-epics-ioc-\\\${DMM7510_INSTANCE}-volume \\\\
-    --name dmm7510-epics-ioc-\\\${DMM7510_INSTANCE} \\\\
-    dockerregistry.lnls-sirius.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION} \\\\
-    -i 10.0.18.37 \\\\
-    -p 5025 \\\\
-    -d DCCT1 \\\\
-    -P TEST: \\\\
-    -R DCCT:
+mkdir -p ${EPICS_AUTOSAVE}
 EOF
 "
 
-    sudo chmod 755 ${home}/bootstrap-apps.sh
+    sudo chmod +x ${home}/bootstrap-start-pre-apps.sh
+done
+
+# Configure start post
+for home in "${HOMES[@]}"; do
+    sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-post-apps.sh
+#!/usr/bin/env bash
+EOF
+"
+
+    sudo chmod +x ${home}/bootstrap-start-post-apps.sh
+done
+
+# Configure env-files
+for home in "${HOMES[@]}"; do
+    sudo bash -c "cat << "EOF" > ${home}/00-dmm7510-epics-ioc.env
+IMAGE_VERSION=debian-9
+DMM7510_INSTANCE=DCCT1
+EOF
+"
+done
+
+# Configure homes
+for home in "${HOMES[@]}"; do
+    sudo bash -c "cat << "EOF" > ${home}/00-dmm7510-epics-ioc.yml
+version: '3'
+
+services:
+  dmm7510-epics-ioc:
+    image: dockerregistry.lnls-sirius.com.br/dmm7510-epics-ioc:\\\${IMAGE_VERSION}
+    env_file:
+      - 00-dmm7510-epics-ioc.env
+    container_name: dmm7510-epics-ioc-dcct-1
+    command: -i 10.0.18.37 -p 5025 -d \\\${DMM7510_INSTANCE} -P TEST: -R DCCT:
+    volumes:
+      - type: bind
+        source: ${EPICS_AUTOSAVE}
+        target: /opt/epics/startup/ioc/dmm7510-epics-ioc/iocBoot/iocdmm7510/autosave
+    network_mode: \"host\"
+
+volumes:
+  dmm7510-autosave-volume:
+EOF
+"
 done
