@@ -4,6 +4,10 @@ set -ue
 
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
+# Version
+DOCKER_VERSION=18.03.0
+DOCKER_COMPOSE_VERSION=1.21.0
+
 # User modifiable
 DEBIAN_URL="http://ftp.us.debian.org/debian"
 DEBIAN_FLAVOR=stretch
