@@ -9,17 +9,17 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 HOMEDIR=$1
 
 # Create compose directories
-sudo mkdir -p ${HOMEDIR}/00-dmm7510-epics-ioc
+mkdir -p ${HOMEDIR}/00-dmm7510-epics-ioc
 
 # Configure env-files
-sudo bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/.env
+bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/.env
 IMAGE_VERSION=debian-9
 DMM7510_INSTANCE=DCCT1
 EOF
 "
 
 # Configure homes
-sudo bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/00-dmm7510-epics-ioc.yml
+bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/00-dmm7510-epics-ioc.yml
 version: '3.4'
 
 services:
