@@ -14,7 +14,7 @@ LABEL \
     com.github.lnls-sirius.license="GPLv3" \
     com.github.lnls-sirius.docker.dockerfile="Dockerfile" \
     com.github.lnls-sirius.vcs-type="Git" \
-    com.github.lnls-sirius.vcs-url="https://github.com/lnls-sirius/docker-debian9-rootfs.git" \
+    com.github.lnls-sirius.vcs-url="https://github.com/lnls-sirius/docker-debian-rootfs.git" \
     maintainer="Lucas Russo"
 
 COPY --from=builder /rootfs /rootfs
