@@ -13,7 +13,7 @@ COPY rootfs.tar.gz /
 
 RUN mkdir -p /rootfs && \
     cd /rootfs && \
-    tar xpvf /rootfs.tar.gz
+    tar -xvpzf /rootfs.tar.gz --numeric-owner
 
 FROM debian:9.4
 

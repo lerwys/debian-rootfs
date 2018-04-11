@@ -11,5 +11,5 @@ ROOTFS_EXTRACT=rootfs-extract
 bash -c "\
     mkdir -p ${ROOTFS_EXTRACT} && \
     cd ${ROOTFS_EXTRACT} && \
-    sudo tar -xpvzf ../rootfs.tar.gz
+    sudo tar -xpvzf ../rootfs.tar.gz --numeric-owner
 "

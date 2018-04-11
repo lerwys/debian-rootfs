@@ -13,7 +13,8 @@ COPY homefs.tar.gz /
 
 RUN mkdir -p /homefs && \
     cd /homefs && \
-    tar xpvf /homefs.tar.gz
+    tar -xvpzf /homefs.tar.gz --numeric-owner
+
 
 FROM debian:9.4
 
