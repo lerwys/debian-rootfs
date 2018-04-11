@@ -6,6 +6,7 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 # Version
 DOCKER_VERSION=18.03.0
+DOCKER_VERSION_DEBIAN_SUFFIX=~ce-0~debian
 DOCKER_COMPOSE_VERSION=1.21.0
 
 # User modifiable
