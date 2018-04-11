@@ -20,7 +20,7 @@ EOF
 
 # Configure homes
 sudo bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/00-dmm7510-epics-ioc.yml
-version: '3'
+version: '3.4'
 
 services:
   dmm7510-epics-ioc:
