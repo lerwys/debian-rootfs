@@ -2,10 +2,9 @@
 
 set -euxo pipefail
 
-ROOTFS=$1
-GENERIC_USER=$2
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
-CURDIR="$(dirname $(readlink -f $0))"
+. ${SCRIPTPATH}/env-vars.sh
 
 ## Begin Installation of Docker
 

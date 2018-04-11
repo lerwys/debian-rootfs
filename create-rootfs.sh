@@ -52,7 +52,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
     dnsutils
 
 # Install Docker
-${SCRIPTPATH}/install-docker.sh ${ROOTFS} ${GENERIC_USER}
+${SCRIPTPATH}/install-docker.sh
 
 # Setup home mounts
 AUTOFS_HOST='\$HOST'
