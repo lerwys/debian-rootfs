@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eux
+set -euxo pipefail
 
 ROOTFS=$1
 GENERIC_USER=$2
