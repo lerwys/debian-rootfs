@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eux
+set -euxo pipefail
 
 TOPDIR=$1
 ROOTFSREL=rootfs
