@@ -49,6 +49,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
     git \
     ntp \
     resolvconf \
+    telnet \
     dnsutils
 
 # Install Docker
