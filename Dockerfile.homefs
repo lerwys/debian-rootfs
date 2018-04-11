@@ -13,6 +13,7 @@ FROM debian:9.4
 # Add the option to set the git commit as metadata
 # (This arg is set automatically in the Docker Cloud builds)
 ARG SOURCE_COMMIT=unknown
+ARG BUILD_DATE=unknown
 
 LABEL \
     com.github.lnls-sirius.license="GPLv3" \
@@ -20,6 +21,7 @@ LABEL \
     com.github.lnls-sirius.vcs-type="Git" \
     com.github.lnls-sirius.vcs-url="https://github.com/lnls-sirius/docker-debian-homefs.git" \
     git-commit=$SOURCE_COMMIT \
+    build-date=$BUILD_DATE \
     maintainer="Lucas Russo"
 
 COPY --from=builder /homefs /homefs
