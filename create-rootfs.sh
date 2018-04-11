@@ -191,7 +191,8 @@ if [ ! -z "\\\${COMPOSE_FOLDERS}" ]; then
         COMPOSE_FILES=\\\$(ls \\\${dir} | grep -E \"^[0-9][0-9].*.(yml|yaml)\" | sort)
 
         for file in \\\${COMPOSE_FILES}; do
-            docker-compose -f \\\${dir}/\\\${file} up -d
+            bash -c \"cd \\\${dir} && \\\\
+                docker-compose -f \\\${file} up -d\"
         done
     done
 fi
