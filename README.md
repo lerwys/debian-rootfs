@@ -35,7 +35,10 @@ Then, a tar.gz must be created with the rootfs contents:
 
 Finally, the docker image can be built:
 
-    docker build -f Dockerfile.rootfs -t lnls/debian-rootfs .
+    docker build \
+        --build-arg SOURCE_COMMIT=$(git describe --dirty --always --abbrev=10) \
+        --build-arg BUILD_DATE=$(date +%Y%m%d-%H%M%S) \
+        -f Dockerfile.rootfs -t lnls/debian-rootfs .
 
 Most of the time the dockerhub image should be used, not the
 locally generated ones. If in doubt use the dockerhub one.
@@ -52,7 +55,10 @@ Then, a tar.gz must be created with the homes contents:
 
 Finally, the docker image can be built:
 
-    docker build -f Dockerfile.homefs -t lnls/debian-homefs .
+    docker build \
+        --build-arg SOURCE_COMMIT=$(git describe --dirty --always --abbrev=10) \
+        --build-arg BUILD_DATE=$(date +%Y%m%d-%H%M%S) \
+        -f Dockerfile.homefs -t lnls/debian-homefs .
 
 Most of the time the dockerhub image should be used, not the
 locally generated ones. If in doubt use the dockerhub one.
