@@ -2,10 +2,8 @@
 
 set -euxo pipefail
 
-TOPDIR=$1
-HOMESREL=home
-HOMES=${TOPDIR}/${HOMESREL}
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
-CURDIR="$(dirname $(readlink -f $0))"
+. ${SCRIPTPATH}/env-vars.sh
 
 rm -rf ${HOMES}

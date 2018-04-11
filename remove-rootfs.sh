@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-TOPDIR=$1
-ROOTFSREL=rootfs
-ROOTFS=${TOPDIR}/${ROOTFSREL}
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
-CURDIR="$(dirname $(readlink -f $0))"
+. ${SCRIPTPATH}/env-vars.sh
 
 sudo bash -c "chroot ${ROOTFS} umount /proc || true"
 sudo rm -rf ${ROOTFS}

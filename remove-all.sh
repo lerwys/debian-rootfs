@@ -2,11 +2,9 @@
 
 set -euxo pipefail
 
-SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-EXPORTDIR=exports
-TOPDIR=${SCRIPTPATH}/${EXPORTDIR}
+SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
-CURDIR="$(dirname $(readlink -f $0))"
+. ${SCRIPTPATH}/env-vars.sh
 
 # Ask sudo password only once and
 # keep updating sudo timestamp to
@@ -16,7 +14,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || \
     exit; done 2>/dev/null &
 
 # Remove rootfs
-${CURDIR}/remove-rootfs.sh ${TOPDIR}
+${SCRIPTPATH}/remove-rootfs.sh
 
 # Remove homes
-${CURDIR}/remove-homes.sh ${TOPDIR}
+${SCRIPTPATH}/remove-homes.sh
