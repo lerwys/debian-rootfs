@@ -161,6 +161,7 @@ ExecStartPost=-/home/server/bootstrap-start-post-apps.sh
 ExecStopPre=-/home/server/bootstrap-stop-pre-apps.sh
 ExecStop=/usr/local/bin/bootstrap-apps/bootstrap-stop.sh /home/server
 ExecStopPost=-/home/server/bootstrap-stop-post-apps.sh
+RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
