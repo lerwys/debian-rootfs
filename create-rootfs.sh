@@ -98,6 +98,10 @@ none                 /var/lib/docker   tmpfs   defaults   0 0
 EOF
 "
 
+###############################################################################
+# Add mounting overlay services
+###############################################################################
+
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-docker-overlay.service
 [Unit]
 Description=Mount /etc/docker as an overlay filesystem
@@ -141,6 +145,28 @@ EOF
 "
 
 sudo chroot ${ROOTFS} systemctl enable mount-nfs-overlay
+
+###############################################################################
+# Add common folder for EPICS autosave
+###############################################################################
+
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-epics-autosave.service
+[Unit]
+Description=Mount/Create EPICS autosave filesystem
+Before=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/bin/sh -c \" \\\\
+    /bin/mkdir -p ${EPICSAUTOSAVE} \
+\"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+"
+
+sudo chroot ${ROOTFS} systemctl enable mount-epics-autosave
 
 # Add bootstrap script for homes
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/bootstrap-apps.service

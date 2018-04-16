@@ -21,7 +21,6 @@ done
 for home in "${HOMES[@]}"; do
     sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-pre-apps.sh
 #!/usr/bin/env bash
-mkdir -p ${EPICSAUTOSAVE}
 EOF
 "
 
