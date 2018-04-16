@@ -222,19 +222,29 @@ EOF
 sudo chmod +x ${ROOTFS}/usr/local/bin/boot-apps/boot-stop.sh
 
 ###############################################################################
+# Add bootstrap script for homes
+###############################################################################
+
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/boot-container-apps.service
+[Unit]
+Description=Bootstrap service to load containerized applications
+After=autofs.service
+Requires=autofs.service
 After=docker.service
 Wants=docker.service
 After=mount-docker-overlay.service
 Requires=mount-docker-overlay.service
+After=boot-apps.service
+Wants=boot-apps.service
 
 [Service]
 Type=oneshot
-ExecStartPre=-/home/server/bootstrap-start-pre-apps.sh
-ExecStart=/usr/local/bin/bootstrap-apps/bootstrap-start.sh /home/server
-ExecStartPost=-/home/server/bootstrap-start-post-apps.sh
-ExecStopPre=-/home/server/bootstrap-stop-pre-apps.sh
-ExecStop=/usr/local/bin/bootstrap-apps/bootstrap-stop.sh /home/server
-ExecStopPost=-/home/server/bootstrap-stop-post-apps.sh
+ExecStartPre=-/home/server/boot-start-pre-container-apps.sh
+ExecStart=/usr/local/bin/boot-container-apps/boot-container-start.sh /home/server
+ExecStartPost=-/home/server/boot-start-post-container-apps.sh
+ExecStopPre=-/home/server/boot-stop-pre-container-apps.sh
+ExecStop=/usr/local/bin/boot-container-apps/boot-container-stop.sh /home/server
+ExecStopPost=-/home/server/boot-stop-post-container-apps.sh
 RemainAfterExit=yes
 
 [Install]
@@ -242,61 +252,99 @@ WantedBy=multi-user.target
 EOF
 "
 
-sudo chroot ${ROOTFS} systemctl enable bootstrap-apps
+sudo chroot ${ROOTFS} systemctl enable boot-container-apps
 
-sudo mkdir -p ${ROOTFS}/usr/local/bin/bootstrap-apps
+sudo mkdir -p ${ROOTFS}/usr/local/bin/boot-container-apps
 
-# Add bootstrap start
-sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-start.sh
+# Add bootstrap functions
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-container-apps/boot-functions.sh
 #!/usr/bin/env bash
 
-EXEC_FOLDER_RAW=\\\$1
-EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
+function get_compose_folders () {
+    # Input arguments
+    local EXEC_FOLDER_RAW=\\\$1
 
-# Get all docker-compose folders
-COMPOSE_FOLDERS_REL=\\\$(find \\\${EXEC_FOLDER} -maxdepth 1 -type d -exec basename \"{}\" \; | \\\\
-    grep -E \"^[0-9][0-9].*\" | sort)
+    # Local variables
+    local EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
+    # Get all docker-compose folders
+    local COMPOSE_FOLDERS_REL=\\\$(find \\\${EXEC_FOLDER} -maxdepth 1 -type d -exec basename \"{}\" \; | \\\\
+        grep -E \"^[0-9][0-9].*\" | sort)
+    local COMPOSE_FOLDERS=()
 
-COMPOSE_FOLDERS=()
-for cfolders in \\\${COMPOSE_FOLDERS_REL}; do
-    COMPOSE_FOLDERS+=(\\\${EXEC_FOLDER}/\\\${cfolders})
-done
+    # Get add compose folders
+    for cfolders in \\\${COMPOSE_FOLDERS_REL}; do
+        COMPOSE_FOLDERS+=(\\\${EXEC_FOLDER}/\\\${cfolders})
+    done
 
-if [ ! -z "\\\${COMPOSE_FOLDERS}" ]; then
-    # Run docker compose
+    echo \"\\\${COMPOSE_FOLDERS[@]}\"
+}
+
+function get_compose_files () {
+    # Input arguments
+    local COMPOSE_FOLDERS=\\\$1
+    # Local variables
+    local COMPOSE_FILES=()
+
+    # Get all compose files
     for dir in \\\${COMPOSE_FOLDERS[@]}; do
-        COMPOSE_FILES=\\\$(ls \\\${dir} | grep -E \"^[0-9][0-9].*.(yml|yaml)\" | sort)
-
-        for file in \\\${COMPOSE_FILES}; do
-            bash -c \"cd \\\${dir} && \\\\
-                docker-compose -f \\\${file} up -d\"
+        COMPOSE_FILES_RAW=(\\\$(ls \\\${dir} | grep -E \"^[0-9][0-9].*.(yml|yaml)\" | sort))
+        for file in \\\${COMPOSE_FILES_RAW[@]}; do
+            COMPOSE_FILES+=(\\\${dir}/\\\${file})
         done
     done
-fi
+
+    echo \"\\\${COMPOSE_FILES[@]}\"
+}
 EOF
 "
 
-sudo chmod +x ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-start.sh
+sudo chmod +x ${ROOTFS}/usr/local/bin/boot-container-apps/boot-functions.sh
 
-# Add bootstrap stop
-sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-stop.sh
+# Add bootstrap start
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-container-apps/boot-container-start.sh
 #!/usr/bin/env bash
 
-set -u
+SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
 
-EXEC_FOLDER=\\\$1
+. \\\${SCRIPTPATH}/boot-functions.sh
 
-# Get all docker-compose files
-COMPOSE_FILES=\\\$(ls \\\${EXEC_FOLDER} | grep -E \"^[0-9][0-9].*.(yml|yaml)\")
+EXEC_FOLDER_DIR=\\\$1
+EXEC_FOLDERS=(\\\$(get_compose_folders \\\${EXEC_FOLDER_DIR}))
 
-# Stop docker compose
-for files in \\\${COMPOSE_FILES}; do
-    docker-compose -f \\\${EXEC_FOLDER}/\\\${files} down
+for dir in \\\${EXEC_FOLDERS[@]}; do
+    COMPOSE_FILES=\\\$(get_compose_files \\\${dir})
+    for file in \\\${COMPOSE_FILES[@]}; do
+        bash -c \"cd \\\${dir} && \\\\
+            docker-compose -f \\\${file} up -d\"
+    done
 done
 EOF
 "
 
-sudo chmod +x ${ROOTFS}/usr/local/bin/bootstrap-apps/bootstrap-stop.sh
+sudo chmod +x ${ROOTFS}/usr/local/bin/boot-container-apps/boot-container-start.sh
+
+# Add bootstrap stop
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-container-apps/boot-container-stop.sh
+#!/usr/bin/env bash
+
+SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
+
+. \\\${SCRIPTPATH}/boot-functions.sh
+
+EXEC_FOLDER_DIR=\\\$1
+EXEC_FOLDERS=(\\\$(get_compose_folders \\\${EXEC_FOLDER_DIR}))
+
+for dir in \\\${EXEC_FOLDERS[@]}; do
+    COMPOSE_FILES=\\\$(get_compose_files \\\${dir})
+    for file in \\\${COMPOSE_FILES[@]}; do
+        bash -c \"cd \\\${dir} && \\\\
+            docker-compose -f \\\${file} down\"
+    done
+done
+EOF
+"
+
+sudo chmod +x ${ROOTFS}/usr/local/bin/boot-container-apps/boot-container-stop.sh
 
 # Clear hostname as this will be assigned from DHCP server
 sudo bash -c "echo \"\" > ${ROOTFS}/etc/hostname"
