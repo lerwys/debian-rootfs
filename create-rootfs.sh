@@ -168,12 +168,60 @@ EOF
 
 sudo chroot ${ROOTFS} systemctl enable mount-epics-autosave
 
-# Add bootstrap script for homes
-sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/bootstrap-apps.service
+###############################################################################
+# Add bootstrap script for homes for NON containered apps
+##############################################################################
+
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/boot-apps.service
 [Unit]
-Description=Bootstrap service to load applications
+Description=Bootstrap service to load non-containerized applications
 After=autofs.service
 Wants=autofs.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/home/server/boot-start-pre-apps.sh
+ExecStart=/usr/local/bin/boot-apps/boot-start.sh /home/server
+ExecStartPost=-/home/server/boot-start-post-apps.sh
+ExecStopPre=-/home/server/boot-stop-pre-apps.sh
+ExecStop=/usr/local/bin/boot-apps/boot-stop.sh /home/server
+ExecStopPost=-/home/server/boot-stop-post-apps.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+"
+
+sudo chroot ${ROOTFS} systemctl enable boot-apps
+
+sudo mkdir -p ${ROOTFS}/usr/local/bin/boot-apps
+
+# Add bootstrap start
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-apps/boot-start.sh
+#!/usr/bin/env bash
+
+SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
+
+EXEC_FOLDER_DIR=\\\$1
+EOF
+"
+
+sudo chmod +x ${ROOTFS}/usr/local/bin/boot-apps/boot-start.sh
+
+# Add bootstrap stop
+sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-apps/boot-stop.sh
+#!/usr/bin/env bash
+
+SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
+
+EXEC_FOLDER_DIR=\\\$1
+EOF
+"
+
+sudo chmod +x ${ROOTFS}/usr/local/bin/boot-apps/boot-stop.sh
+
+###############################################################################
 After=docker.service
 Wants=docker.service
 After=mount-docker-overlay.service
