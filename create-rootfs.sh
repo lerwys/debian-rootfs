@@ -154,6 +154,7 @@ After=mount-docker-overlay.service
 Requires=mount-docker-overlay.service
 
 [Service]
+Type=oneshot
 ExecStartPre=-/home/server/bootstrap-start-pre-apps.sh
 ExecStart=/usr/local/bin/bootstrap-apps/bootstrap-start.sh /home/server
 ExecStartPost=-/home/server/bootstrap-start-post-apps.sh
