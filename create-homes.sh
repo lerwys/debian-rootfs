@@ -17,44 +17,25 @@ done
 ### Configure start/stop scripts
 ###############################################
 
-# Configure start pre
+DEFAULT_SCRIPTS=()
+DEFAULT_SCRIPTS+=("boot-start-pre-container-apps.sh")
+DEFAULT_SCRIPTS+=("boot-start-post-container-apps.sh")
+DEFAULT_SCRIPTS+=("boot-stop-pre-container-apps.sh")
+DEFAULT_SCRIPTS+=("boot-stop-post-container-apps.sh")
+DEFAULT_SCRIPTS+=("boot-start-pre-apps.sh")
+DEFAULT_SCRIPTS+=("boot-start-post-apps.sh")
+DEFAULT_SCRIPTS+=("boot-stop-pre-apps.sh")
+DEFAULT_SCRIPTS+=("boot-stop-post-apps.sh")
+
+# Configure default scripts
 for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-pre-apps.sh
+    for scripts in "${DEFAULT_SCRIPTS[@]}"; do
+        sudo bash -c "cat << "EOF" > ${home}/${scripts}
 #!/usr/bin/env bash
 EOF
 "
-
-    sudo chmod +x ${home}/bootstrap-start-pre-apps.sh
-done
-
-# Configure start post
-for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << "EOF" > ${home}/bootstrap-start-post-apps.sh
-#!/usr/bin/env bash
-EOF
-"
-
-    sudo chmod +x ${home}/bootstrap-start-post-apps.sh
-done
-
-# Configure stop pre
-for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << "EOF" > ${home}/bootstrap-stop-pre-apps.sh
-#!/usr/bin/env bash
-EOF
-"
-
-    sudo chmod +x ${home}/bootstrap-stop-pre-apps.sh
-done
-
-# Configure stop post
-for home in "${HOMES[@]}"; do
-    sudo bash -c "cat << "EOF" > ${home}/bootstrap-stop-post-apps.sh
-#!/usr/bin/env bash
-EOF
-"
-
-    sudo chmod +x ${home}/bootstrap-stop-post-apps.sh
+    sudo chmod +x ${home}/${scripts}
+    done
 done
 
 ################################################
