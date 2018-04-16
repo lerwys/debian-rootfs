@@ -346,6 +346,10 @@ EOF
 
 sudo chmod +x ${ROOTFS}/usr/local/bin/boot-container-apps/boot-container-stop.sh
 
+###############################################################################
+# Add docker certificates
+###############################################################################
+
 # Clear hostname as this will be assigned from DHCP server
 sudo bash -c "echo \"\" > ${ROOTFS}/etc/hostname"
 
