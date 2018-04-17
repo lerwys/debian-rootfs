@@ -44,6 +44,8 @@ sudo chroot ${ROOTFS} apt-get install -y \
     thin-provisioning-tools \
     fuse \
     openssh-server \
+    net-tools \
+    iptables \
     nfs-common \
     vim \
     git \
