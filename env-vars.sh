@@ -15,7 +15,7 @@ DEBIAN_FLAVOR=stretch
 ROOTFSREL=rootfs
 HOMESREL=home
 GENERIC_USER=server
-ROOTFS_IP="192.168.2.12"
+HOMEFS_IP="nfshome.lnls-sirus.com.br"
 
 # Flavored variables
 EXPORTDIR=exports

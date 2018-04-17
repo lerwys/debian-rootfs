@@ -62,7 +62,7 @@ AUTOFS_HOST='\$HOST'
 sudo bash -c "echo -e '\n# Automount NFS partitions\n/home   /etc/auto.home' \
     >> ${ROOTFS}/etc/auto.master"
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/auto.home
-${GENERIC_USER}   ${ROOTFS_IP}:/exports/home/${AUTOFS_HOST}
+${GENERIC_USER}   ${HOMEFS_IP}:/exports/home/${AUTOFS_HOST}
 EOF
 "
 
