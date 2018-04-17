@@ -303,8 +303,16 @@ sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-apps/boot-start.sh
 #!/usr/bin/env bash
 
 SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
+EXEC_SCRIPT_NAME=\"boot-start.sh\"
 
-EXEC_FOLDER_DIR=\\\$1
+EXEC_FOLDER_RAW=\\\$1
+# Remove repeated and trailing \"/\"
+EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
+
+# Execute home script if executable
+if [ -x \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME} ]; then
+    \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME}
+fi
 EOF
 "
 
@@ -315,9 +323,16 @@ sudo bash -c "cat << "EOF" > ${ROOTFS}/usr/local/bin/boot-apps/boot-stop.sh
 #!/usr/bin/env bash
 
 SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
+EXEC_SCRIPT_NAME=\"boot-stop.sh\"
 
-EXEC_FOLDER_DIR=\\\$1
-EOF
+EXEC_FOLDER_RAW=\\\$1
+# Remove repeated and trailing \"/\"
+EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
+
+# Execute home script if executable
+if [ -x \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME} ]; then
+    \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME}
+fi
 "
 
 sudo chmod +x ${ROOTFS}/usr/local/bin/boot-apps/boot-stop.sh
