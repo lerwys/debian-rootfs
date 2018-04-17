@@ -84,7 +84,7 @@ done
 
 # Create special policy for broadcasting special packets. This is important
 # to EPICS search requests, as multiple IOCs might be running on each host
-sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/NetworkManager/dispatcher.d/22-epicsbcast
+sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/network/if-up.d/222epicsbcast
 #!/bin/sh -e
 # Called when an interface goes up / down
 
@@ -96,8 +96,7 @@ sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/NetworkManager/dispatcher.d/22-epicsb
 # Change this if you run CA on a non-standard port
 PORT=5064
 
-IFACE=\\\$1
-MODE=\\\$2
+MODE=\"up\"
 
 [ \"\\\$IFACE\" != \"lo\" ] || exit 0
 
@@ -128,7 +127,52 @@ exit 0
 EOF
 "
 
-sudo chmod +x ${ROOTFS}/etc/NetworkManager/dispatcher.d/22-epicsbcast
+sudo chmod +x ${ROOTFS}/etc/network/if-up.d/222epicsbcast
+
+sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/network/if-down.d/epicsbcast
+#!/bin/sh -e
+# Called when an interface goes up / down
+
+# Author: Ralph Lange <Ralph.Lange@gmx.de>
+
+# Make any incoming Channel Access name resolution queries go to the broadcast address
+# (to hit all IOCs on this host)
+
+# Change this if you run CA on a non-standard port
+PORT=5064
+
+MODE=\"down\"
+
+[ \"\\\$IFACE\" != \"lo\" ] || exit 0
+
+line=\\\`/sbin/ifconfig \\\$IFACE | grep \"inet \"\\\`
+
+# Fedora ifconfig output
+addr=\\\`echo \\\$line | sed -e 's/.*inet \([0-9.]*\).*/\1/'\\\`
+bcast=\\\`echo \\\$line | sed -e 's/.*broadcast \([0-9.]*\).*/\1/'\\\`
+
+if [ -z \"\\\$addr\" -o -z \"\\\$bcast\" ]
+then
+    # RHEL ifconfig output
+    addr=\\\`echo \\\$line | sed -e 's/.*inet addr:\([0-9.]*\).*/\1/'\\\`
+    bcast=\\\`echo \\\$line | sed -e 's/.*Bcast:\([0-9.]*\).*/\1/'\\\`
+fi
+
+[ -z \"\\\$addr\" -o -z \"\\\$bcast\" ] && return 1
+
+if [ \"\\\$MODE\" = \"up\" ]
+then
+    /sbin/iptables -t nat -A PREROUTING -d \\\$addr -p udp --dport \\\$PORT -j DNAT --to-destination \\\$bcast
+elif [ \"\\\$MODE\" = \"down\" ]
+then
+    /sbin/iptables -t nat -D PREROUTING -d \\\$addr -p udp --dport \\\$PORT -j DNAT --to-destination \\\$bcast
+fi
+
+exit 0
+EOF
+"
+
+sudo chmod +x ${ROOTFS}/etc/network/if-down.d/epicsbcast
 
 ###############################################################################
 # fstab
