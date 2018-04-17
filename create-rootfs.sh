@@ -66,7 +66,10 @@ ${GENERIC_USER}   ${ROOTFS_IP}:/exports/home/${AUTOFS_HOST}
 EOF
 "
 
+###############################################################################
 # Setup interfaces
+###############################################################################
+
 NET_INTERFACE=()
 NET_INTERFACE+=("eno1")
 
@@ -128,6 +131,9 @@ EOF
 sudo chmod +x ${ROOTFS}/etc/NetworkManager/dispatcher.d/22-epicsbcast
 
 ###############################################################################
+# fstab
+###############################################################################
+
 # Create .rw folders to mount as overlay
 sudo mkdir -p ${ROOTFS}/var/lib/nfs.rw
 sudo mkdir -p ${ROOTFS}/etc/docker.rw
