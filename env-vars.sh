@@ -15,7 +15,9 @@ DEBIAN_FLAVOR=stretch
 ROOTFSREL=rootfs
 HOMESREL=home
 GENERIC_USER=server
+AUTOSAVE_NAME=autosave
 HOMEFS_IP="nfshome.lnls-sirus.com.br"
+AUTOSAVEFS_IP="nfsautosave.lnls-sirus.com.br"
 
 # Flavored variables
 EXPORTDIR=exports
@@ -27,7 +29,7 @@ HOMESFS=${TOPDIR}/${HOMESREL}
 HOMESNAMES_PREFIX="homes"
 HOMESNAMES_STR=$(ls ${SCRIPTPATH}/${HOMESNAMES_PREFIX})
 HOMESNAMES=(${HOMESNAMES_STR})
-EPICSAUTOSAVE="/media/local/autosave"
+EPICSAUTOSAVE="/media/autosave"
 
 # Prefix homes array
 HOMES=()

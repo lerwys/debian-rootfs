@@ -61,8 +61,15 @@ ${SCRIPTPATH}/install-docker.sh
 AUTOFS_HOST='\$HOST'
 sudo bash -c "echo -e '\n# Automount NFS partitions\n/home   /etc/auto.home' \
     >> ${ROOTFS}/etc/auto.master"
+sudo bash -c "echo -e '\n# Automount NFS partitions\n/media   /etc/auto.media' \
+    >> ${ROOTFS}/etc/auto.master"
+
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/auto.home
 ${GENERIC_USER}   ${HOMEFS_IP}:/exports/home/${AUTOFS_HOST}
+EOF
+"
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/auto.media
+${AUTOSAVE_NAME}   ${AUTOSAVEFS_IP}:/exports/autosave/${AUTOFS_HOST}
 EOF
 "
 
