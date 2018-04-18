@@ -17,7 +17,7 @@ mkdir -p ${HOMEDIR}/00-dmm7510-epics-ioc
 
 # Configure env-files
 bash -c "cat << "EOF" > ${HOMEDIR}/00-dmm7510-epics-ioc/.env
-IMAGE_VERSION=1.0.1-debian-9.2
+IMAGE_VERSION=1.0.2-debian-9.2
 DMM7510_INSTANCE=ICT1
 DMM7510_IP=10.2.117.31
 DMM7510_PORT=5025
@@ -56,7 +56,7 @@ mkdir -p ${HOMEDIR}/01-dmm7510-epics-ioc
 
 # Configure env-files
 bash -c "cat << "EOF" > ${HOMEDIR}/01-dmm7510-epics-ioc/.env
-IMAGE_VERSION=1.0.1-debian-9.2
+IMAGE_VERSION=1.0.2-debian-9.2
 DMM7510_INSTANCE=ICT2
 DMM7510_IP=10.2.117.33
 DMM7510_PORT=5025
