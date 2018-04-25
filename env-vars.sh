@@ -19,6 +19,11 @@ AUTOSAVE_NAME=autosave
 HOMEFS_IP="nfshome.lnls-sirius.com.br"
 AUTOSAVEFS_IP="nfsautosave.lnls-sirius.com.br"
 
+# Subdmoules
+SUBMODULES="foreign"
+DOCKER_REGISTRY_CERTS_REPO="docker-registry-certs"
+DEBIAN_HOMEFS_REPO="debian-homefs"
+
 # Flavored variables
 EXPORTDIR=exports
 TOPDIR=${SCRIPTPATH}/${EXPORTDIR}
