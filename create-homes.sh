@@ -13,36 +13,17 @@ for home in "${HOMES[@]}"; do
     mkdir -p ${home}
 done
 
-################################################
-### Configure start/stop scripts
-###############################################
-
-DEFAULT_SCRIPTS=()
-DEFAULT_SCRIPTS+=("boot-start-pre-container-apps.sh")
-DEFAULT_SCRIPTS+=("boot-start-post-container-apps.sh")
-DEFAULT_SCRIPTS+=("boot-stop-pre-container-apps.sh")
-DEFAULT_SCRIPTS+=("boot-stop-post-container-apps.sh")
-DEFAULT_SCRIPTS+=("boot-start-pre-apps.sh")
-DEFAULT_SCRIPTS+=("boot-start-post-apps.sh")
-DEFAULT_SCRIPTS+=("boot-stop-pre-apps.sh")
-DEFAULT_SCRIPTS+=("boot-stop-post-apps.sh")
-
-# Configure default scripts
-for home in "${HOMES[@]}"; do
-    for scripts in "${DEFAULT_SCRIPTS[@]}"; do
-        sudo bash -c "cat << "EOF" > ${home}/${scripts}
-#!/usr/bin/env bash
-EOF
-"
-    sudo chmod +x ${home}/${scripts}
-    done
-done
+# Get ID/GID of generic user
+GENERIC_ID=$(sudo chroot ${ROOTFS} id -u ${GENERIC_USER})
+GENERIC_GID=$(sudo chroot ${ROOTFS} id -g ${GENERIC_USER})
 
 ################################################
-### Configure docker-compose folder
+### Just copy all of the files to the generated home
 ###############################################
 
 for home in "${HOMESNAMES[@]}"; do
-    ${HOMESNAMES_PREFIX}/${home}/create-home.sh \
+    cp --preserve -r ${HOMESNAMES_PREFIX}/${home}/* \
+        ${HOMESFS}/${home}
+    sudo chown ${GENERIC_ID}:${GENERIC_GID} -R \
         ${HOMESFS}/${home}
 done
