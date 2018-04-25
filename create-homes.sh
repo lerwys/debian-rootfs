@@ -12,6 +12,23 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 ## Begin Installation of HOMES
 
+# Get all folder in depth exactly 1
+HOMESNAMES_STR=$(find -L ${SCRIPTPATH}/${HOMESNAMES_PREFIX} \
+    -maxdepth 1 -mindepth 1 -type d -iname "*" -exec basename '{}' \;| sort)
+HOMESNAMES=(${HOMESNAMES_STR})
+
+# Prefix homes array
+HOMES=()
+for homes in "${HOMESNAMES[@]}"; do
+    HOMES+=(${HOMESFS}/${homes})
+done
+
+# Prefix homes build array
+HOMESNAMES_FULL=()
+for homes in "${HOMESNAMES[@]}"; do
+    HOMESNAMES_FULL+=(${HOMESNAMES_PREFIX}/${homes})
+done
+
 # Create homes dirs
 for home in "${HOMES[@]}"; do
     mkdir -p ${home}

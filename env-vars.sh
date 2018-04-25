@@ -32,20 +32,5 @@ ROOTFS=${TOPDIR}/${ROOTFSREL}
 # Home variables
 HOMESFS=${TOPDIR}/${HOMESREL}
 HOMESNAMES_PREFIX="homes"
-# Get all folder in depth exactly 1
-HOMESNAMES_STR=$(find -L ${SCRIPTPATH}/${HOMESNAMES_PREFIX} \
-    -maxdepth 1 -mindepth 1 -type d -iname "*" -exec basename '{}' \;| sort)
-HOMESNAMES=(${HOMESNAMES_STR})
 EPICSAUTOSAVE="/media/autosave"
 
-# Prefix homes array
-HOMES=()
-for homes in "${HOMESNAMES[@]}"; do
-    HOMES+=(${HOMESFS}/${homes})
-done
-
-# Prefix homes build array
-HOMESNAMES_FULL=()
-for homes in "${HOMESNAMES[@]}"; do
-    HOMESNAMES_FULL+=(${HOMESNAMES_PREFIX}/${homes})
-done
