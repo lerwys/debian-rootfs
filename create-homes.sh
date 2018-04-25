@@ -6,6 +6,10 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 . ${SCRIPTPATH}/env-vars.sh
 
+# Check if repo was cloned with Homes Filesystem submodule
+[ ! -z "$(ls -A ${SCRIPTPATH}/${SUBMODULES}/${DEBIAN_HOMEFS_REPO})" ] || \
+    git submodule update --init
+
 ## Begin Installation of HOMES
 
 # Create homes dirs
