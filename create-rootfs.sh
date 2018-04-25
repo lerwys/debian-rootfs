@@ -6,6 +6,10 @@ SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 . ${SCRIPTPATH}/env-vars.sh
 
+# Check if repo was cloned with Docker Certs submodules
+[ ! -z "$(ls -A ${SCRIPTPATH}/${SUBMODULES}/${DOCKER_REGISTRY_CERTS_REPO})" ] || \
+    git submodule update --init
+
 ## Begin Installation of ROOTFS
 sudo apt-get install -y \
     debootstrap \
