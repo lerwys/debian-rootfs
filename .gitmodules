@@ -1,3 +1,6 @@
 [submodule "foreign/docker-registry-certs"]
 	path = foreign/docker-registry-certs
 	url = https://github.com/lnls-sirius/docker-registry-certs
+[submodule "foreign/debian-homefs"]
+	path = foreign/debian-homefs
+	url = https://github.com/lnls-sirius/debian-homefs.git
