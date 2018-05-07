@@ -110,6 +110,7 @@ PORT=5064
 MODE=\"up\"
 
 [ \"\\\$IFACE\" != \"lo\" ] || exit 0
+[ \"\\\$IFACE\" != \"--all\" ] || exit 0
 
 line=\\\`/sbin/ifconfig \\\$IFACE | grep \"inet \"\\\`
 
@@ -155,6 +156,7 @@ PORT=5064
 MODE=\"down\"
 
 [ \"\\\$IFACE\" != \"lo\" ] || exit 0
+[ \"\\\$IFACE\" != \"--all\" ] || exit 0
 
 line=\\\`/sbin/ifconfig \\\$IFACE | grep \"inet \"\\\`
 
