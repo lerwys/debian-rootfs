@@ -83,6 +83,7 @@ EOF
 
 NET_INTERFACE=()
 NET_INTERFACE+=("eno1")
+NET_INTERFACE+=("eno2")
 
 for interface in ${NET_INTERFACE[@]}; do
     sudo bash -c "cat << EOF > ${ROOTFS}/etc/network/interfaces.d/${interface}
