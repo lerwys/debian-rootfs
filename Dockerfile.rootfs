@@ -20,7 +20,15 @@ WORKDIR /
 
 COPY rootfs.tar.gz /
 
-RUN mkdir -p /rootfs && \
+# Use bsdtar, as tar fails with: 
+# "Directory renamed before its status could be extracted"
+RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
+    apt-get update && \
+    apt-get install -y bsdtar && \
+    cp $(which tar) $(which tar)~ && \
+    ln -sf $(which bsdtar) $(which tar) && \
+    mkdir -p /rootfs && \
     cd /rootfs && \
     tar -xvpzf /rootfs.tar.gz --numeric-owner && \
-    rm -rf /rootfs.tar.gz
+    rm -rf /rootfs.tar.gz && \
+    mv $(which tar)~ $(which tar)
