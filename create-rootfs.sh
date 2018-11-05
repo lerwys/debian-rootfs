@@ -42,8 +42,8 @@ sudo chroot ${ROOTFS} apt-get install -y \
     udev \
     coreutils \
     initramfs-tools \
-    linux-image-amd64 \
-    linux-headers-amd64 \
+    linux-image-4.9.0-7-amd64 \
+    linux-headers-4.9.0-7-amd64 \
     autofs \
     thin-provisioning-tools \
     fuse \
