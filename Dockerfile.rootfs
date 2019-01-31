@@ -20,7 +20,7 @@ WORKDIR /
 
 COPY rootfs.tar.gz /
 
-# Use bsdtar, as tar fails with: 
+# Use bsdtar, as tar fails with:
 # "Directory renamed before its status could be extracted"
 RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
     apt-get update && \
