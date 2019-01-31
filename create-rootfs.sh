@@ -115,6 +115,8 @@ MODE=\"up\"
 
 line=\\\`/sbin/ifconfig \\\$IFACE | grep \"inet \"\\\`
 
+[ -z \"\\\$line\" ] && return 0
+
 # Fedora ifconfig output
 addr=\\\`echo \\\$line | sed -e 's/.*inet \([0-9.]*\).*/\1/'\\\`
 bcast=\\\`echo \\\$line | sed -e 's/.*broadcast \([0-9.]*\).*/\1/'\\\`
@@ -160,6 +162,8 @@ MODE=\"down\"
 [ \"\\\$IFACE\" != \"--all\" ] || exit 0
 
 line=\\\`/sbin/ifconfig \\\$IFACE | grep \"inet \"\\\`
+
+[ -z \"\\\$line\" ] && return 0
 
 # Fedora ifconfig output
 addr=\\\`echo \\\$line | sed -e 's/.*inet \([0-9.]*\).*/\1/'\\\`
