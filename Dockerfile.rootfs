@@ -18,6 +18,11 @@ USER root
 
 WORKDIR /
 
+# FIXME. There's a problem with COPY as we can never reclaim
+# the space used by the tar.gz file after this instruction.
+# A solution would be to transfer the tar.gz via curl/wget
+# and remove it just after using it, but we would need to
+# store it somewhere public.
 COPY rootfs.tar.gz /
 
 # Use bsdtar, as tar fails with:
