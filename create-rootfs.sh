@@ -144,7 +144,7 @@ EOF
 
 sudo chmod +x ${ROOTFS}/etc/network/if-up.d/222epicsbcast
 
-sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/network/if-down.d/epicsbcast
+sudo bash -c "cat << "EOF" > ${ROOTFS}/etc/network/if-down.d/222epicsbcast
 #!/bin/sh -e
 # Called when an interface goes up / down
 
@@ -190,7 +190,7 @@ exit 0
 EOF
 "
 
-sudo chmod +x ${ROOTFS}/etc/network/if-down.d/epicsbcast
+sudo chmod +x ${ROOTFS}/etc/network/if-down.d/222epicsbcast
 
 ###############################################################################
 # fstab
