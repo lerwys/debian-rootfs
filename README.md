@@ -11,6 +11,16 @@ used in a production environment.
 This was designed to be used as a docker bind mount to the
 NFS-server available here: https://github.com/lnls-sirius/docker-nfs-server
 
+## Image Versioning
+
+The image versioning scheme follows the pattern:
+
+    <rootfs_debian_version>-kernel-<kernel_version>-<date_YYYYMMDD>
+
+    An example would be the tag:
+
+    9.7-kernel-4.9.0-8-20190201
+
 ### Build rootfs/homes
 
     ./create-all.sh
