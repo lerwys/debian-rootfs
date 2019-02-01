@@ -87,7 +87,7 @@ NET_INTERFACE+=("eno2")
 
 for interface in ${NET_INTERFACE[@]}; do
     sudo bash -c "cat << EOF > ${ROOTFS}/etc/network/interfaces.d/${interface}
-auto ${interface}
+allow-hotplug ${interface}
 no-auto-down ${interface}
 iface ${interface} inet dhcp
 EOF
