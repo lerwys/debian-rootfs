@@ -56,7 +56,8 @@ sudo chroot ${ROOTFS} apt-get install -y \
     ntp \
     resolvconf \
     telnet \
-    dnsutils
+    dnsutils \
+    bridge-utils
 
 # Install Docker
 ${SCRIPTPATH}/install-docker.sh
