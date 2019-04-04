@@ -5,7 +5,7 @@ set -ue
 SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}"  )" && pwd  )"
 
 # Version
-DOCKER_VERSION=5:18.09.2
+DOCKER_VERSION=5:18.09.4
 DOCKER_VERSION_DEBIAN_SUFFIX=~3-0~debian-stretch
 DOCKER_COMPOSE_VERSION=1.23.2
 
