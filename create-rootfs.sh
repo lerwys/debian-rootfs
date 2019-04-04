@@ -298,9 +298,13 @@ Description=Bootstrap service to load non-containerized applications
 After=autofs.service
 Wants=autofs.service
 ConditionPathExists=/home/server/boot-start-pre-apps.sh
+StartLimitInterval=4
+StartLimitBurst=200
 
 [Service]
 Type=oneshot
+Restart=always
+RestartSec=2
 ExecStartPre=/home/server/boot-start-pre-apps.sh
 ExecStart=/usr/local/bin/boot-apps/boot-start.sh /home/server
 ExecStartPost=-/home/server/boot-start-post-apps.sh
@@ -373,9 +377,13 @@ Requires=mount-docker-overlay.service
 After=boot-apps.service
 Wants=boot-apps.service
 ConditionPathExists=/home/server/boot-start-pre-container-apps.sh
+StartLimitInterval=4
+StartLimitBurst=200
 
 [Service]
 Type=oneshot
+Restart=always
+RestartSec=2
 ExecStartPre=/home/server/boot-start-pre-container-apps.sh
 ExecStart=/usr/local/bin/boot-container-apps/boot-container-start.sh /home/server
 ExecStartPost=-/home/server/boot-start-post-container-apps.sh
