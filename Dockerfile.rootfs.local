@@ -36,4 +36,6 @@ RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
     cd /rootfs && \
     tar -xvpzf /rootfs.tar.gz --numeric-owner && \
     rm -rf /rootfs.tar.gz && \
-    mv $(which tar)~ $(which tar)
+    mv $(which tar)~ $(which tar) && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/
