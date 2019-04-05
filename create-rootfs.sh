@@ -329,6 +329,13 @@ SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
 EXEC_SCRIPT_NAME=\"boot-start.sh\"
 
 EXEC_FOLDER_RAW=\\\$1
+
+
+if [ ! -d \"\\\${EXEC_FOLDER_RAW}\" ]; then
+    echo \"Folder \\\${EXEC_FOLDER_RAW} does not exist\"
+    exit 1
+fi
+
 # Remove repeated and trailing \"/\"
 EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
 
@@ -349,6 +356,13 @@ SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
 EXEC_SCRIPT_NAME=\"boot-stop.sh\"
 
 EXEC_FOLDER_RAW=\\\$1
+
+
+if [ ! -d \"\\\${EXEC_FOLDER_RAW}\" ]; then
+    echo \"Folder \\\${EXEC_FOLDER_RAW} does not exist\"
+    exit 1
+fi
+
 # Remove repeated and trailing \"/\"
 EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
 
@@ -407,6 +421,11 @@ function get_compose_folders () {
     # Input arguments
     local EXEC_FOLDER_RAW=\\\$1
 
+    if [ ! -d \"\\\${EXEC_FOLDER_RAW}\" ]; then
+        echo \"Folder \\\${EXEC_FOLDER_RAW} does not exist\"
+        exit 1
+    fi
+
     # Local variables
     local EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FOLDER%/}
     # Get all docker-compose folders
@@ -427,6 +446,11 @@ function get_compose_files () {
     local COMPOSE_FOLDERS=\\\$1
     # Local variables
     local COMPOSE_FILES=()
+
+    if [ ! -d \"\\\${COMPOSE_FOLDERS}\" ]; then
+        echo \"Folder \\\${COMPOSE_FOLDERS} does not exist\"
+        exit 1
+    fi
 
     # Get all compose files
     for dir in \\\${COMPOSE_FOLDERS[@]}; do
@@ -452,6 +476,12 @@ SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
 . \\\${SCRIPTPATH}/boot-functions.sh
 
 EXEC_FOLDER_DIR=\\\$1
+
+if [ ! -d \"\\\${EXEC_FOLDER_DIR}\" ]; then
+    echo \"Folder \\\${EXEC_FOLDER_DIR} does not exist\"
+    exit 1
+fi
+
 EXEC_FOLDERS=(\\\$(get_compose_folders \\\${EXEC_FOLDER_DIR}))
 
 for dir in \\\${EXEC_FOLDERS[@]}; do
@@ -475,6 +505,12 @@ SCRIPTPATH=\"\\\$( cd \"\\\$( dirname \"\\\${BASH_SOURCE[0]}\"  )\" && pwd  )\"
 . \\\${SCRIPTPATH}/boot-functions.sh
 
 EXEC_FOLDER_DIR=\\\$1
+
+if [ ! -d \"\\\${EXEC_FOLDER_DIR}\" ]; then
+    echo \"Folder \\\${EXEC_FOLDER_DIR} does not exist\"
+    exit 1
+fi
+
 EXEC_FOLDERS=(\\\$(get_compose_folders \\\${EXEC_FOLDER_DIR}))
 
 for dir in \\\${EXEC_FOLDERS[@]}; do
