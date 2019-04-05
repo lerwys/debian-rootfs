@@ -310,7 +310,6 @@ ExecStartPost=-/home/server/boot-start-post-apps.sh
 ExecStopPre=-/home/server/boot-stop-pre-apps.sh
 ExecStop=/usr/local/bin/boot-apps/boot-stop.sh /home/server
 ExecStopPost=-/home/server/boot-stop-post-apps.sh
-RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
@@ -402,7 +401,6 @@ ExecStartPost=-/home/server/boot-start-post-container-apps.sh
 ExecStopPre=-/home/server/boot-stop-pre-container-apps.sh
 ExecStop=/usr/local/bin/boot-container-apps/boot-container-stop.sh /home/server
 ExecStopPost=-/home/server/boot-stop-post-container-apps.sh
-RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
