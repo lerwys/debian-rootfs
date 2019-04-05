@@ -1,4 +1,4 @@
-FROM debian:9.4
+FROM debian:9.8
 
 # Add the option to set the git commit as metadata
 # (This arg is set automatically in the Docker Cloud builds)
