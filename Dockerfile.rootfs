@@ -38,4 +38,4 @@ RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
     apt-get remove -y \
         curl && \
     rm -rf /var/lib/apt/lists/ && \
-    /rootfs.tar.gz
+    rm -rf /rootfs.tar.gz
