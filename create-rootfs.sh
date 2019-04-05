@@ -302,7 +302,7 @@ StartLimitBurst=200
 
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-apps.sh
 ExecStart=/usr/local/bin/boot-apps/boot-start.sh /home/server
@@ -380,7 +380,7 @@ StartLimitBurst=200
 
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-container-apps.sh
 ExecStart=/usr/local/bin/boot-container-apps/boot-container-start.sh /home/server
