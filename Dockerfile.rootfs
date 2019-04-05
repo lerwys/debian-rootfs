@@ -35,7 +35,7 @@ RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
     tar -xvpzf /rootfs.tar.gz --numeric-owner && \
     rm -rf /rootfs.tar.gz && \
     mv $(which tar)~ $(which tar) && \
-    apt-get remove \
+    apt-get remove -y \
         curl && \
     rm -rf /var/lib/apt/lists/ && \
     /rootfs.tar.gz
