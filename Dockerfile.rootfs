@@ -29,7 +29,7 @@ RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
         curl && \
     cp $(which tar) $(which tar)~ && \
     ln -sf $(which bsdtar) $(which tar) && \
-    curl -O ${ROOTFS_URL} && \
+    curl -LO ${ROOTFS_URL} && \
     mkdir -p /rootfs && \
     cd /rootfs && \
     tar -xvpzf /rootfs.tar.gz --numeric-owner && \
