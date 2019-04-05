@@ -297,7 +297,7 @@ sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/boot-apps.service
 Description=Bootstrap service to load non-containerized applications
 After=autofs.service
 Wants=autofs.service
-StartLimitIntervalSec=4
+StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
@@ -375,7 +375,7 @@ After=mount-docker-overlay.service
 Requires=mount-docker-overlay.service
 After=boot-apps.service
 Wants=boot-apps.service
-StartLimitIntervalSec=4
+StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
