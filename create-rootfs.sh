@@ -301,7 +301,8 @@ StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
-Type=simple
+Type=forking
+PIDFile=/run/boot-container-apps.pid
 Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-apps.sh
@@ -392,7 +393,8 @@ StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
-Type=simple
+Type=forking
+PIDFile=/run/boot-container-apps.pid
 Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-container-apps.sh
