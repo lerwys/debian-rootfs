@@ -301,7 +301,8 @@ StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
-Type=oneshot
+Type=forking
+PIDFile=/var/run/boot-apps.pid
 Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-apps.sh
@@ -340,7 +341,7 @@ EXEC_FOLDER=\\\$(echo \\\${EXEC_FOLDER_RAW} | tr -s /); EXEC_FOLDER=\\\${EXEC_FO
 
 # Execute home script if executable
 if [ -x \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME} ]; then
-    \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME}
+    \\\${EXEC_FOLDER}/\\\${EXEC_SCRIPT_NAME} &
 fi
 EOF
 "
@@ -392,7 +393,10 @@ StartLimitIntervalSec=10
 StartLimitBurst=200
 
 [Service]
-Type=oneshot
+Type=forking
+PIDFile=/var/run/boot-container-apps.pid
+User=${GENERIC_USER}
+Group=docker
 Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-container-apps.sh
@@ -486,7 +490,7 @@ for dir in \\\${EXEC_FOLDERS[@]}; do
     COMPOSE_FILES=\\\$(get_compose_files \\\${dir})
     for file in \\\${COMPOSE_FILES[@]}; do
         bash -c \"cd \\\${dir} && \\\\
-            docker-compose -f \\\${file} up -d\"
+            docker-compose -f \\\${file} up\" &
     done
 done
 EOF
