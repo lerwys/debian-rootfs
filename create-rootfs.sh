@@ -302,7 +302,7 @@ StartLimitInterval=4
 StartLimitBurst=200
 
 [Service]
-Type=oneshot
+Type=simple
 Restart=always
 RestartSec=2
 ExecStartPre=/home/server/boot-start-pre-apps.sh
@@ -381,7 +381,7 @@ StartLimitInterval=4
 StartLimitBurst=200
 
 [Service]
-Type=oneshot
+Type=simple
 Restart=always
 RestartSec=2
 ExecStartPre=/home/server/boot-start-pre-container-apps.sh
