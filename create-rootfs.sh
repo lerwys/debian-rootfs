@@ -302,7 +302,6 @@ StartLimitBurst=200
 
 [Service]
 Type=forking
-PIDFile=/var/run/boot-apps.pid
 Restart=on-failure
 RestartSec=2
 ExecStartPre=-/home/server/boot-start-pre-apps.sh
@@ -394,7 +393,6 @@ StartLimitBurst=200
 
 [Service]
 Type=forking
-PIDFile=/var/run/boot-container-apps.pid
 User=${GENERIC_USER}
 Group=docker
 Restart=on-failure
