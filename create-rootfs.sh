@@ -304,12 +304,12 @@ StartLimitBurst=200
 Type=forking
 Restart=on-failure
 RestartSec=2
-ExecStartPre=-/home/server/boot-start-pre-apps.sh
+ExecStartPre=/home/server/boot-start-pre-apps.sh
 ExecStart=/usr/local/bin/boot-apps/boot-start.sh /home/server
-ExecStartPost=-/home/server/boot-start-post-apps.sh
-ExecStopPre=-/home/server/boot-stop-pre-apps.sh
+ExecStartPost=/home/server/boot-start-post-apps.sh
+ExecStopPre=/home/server/boot-stop-pre-apps.sh
 ExecStop=/usr/local/bin/boot-apps/boot-stop.sh /home/server
-ExecStopPost=-/home/server/boot-stop-post-apps.sh
+ExecStopPost=/home/server/boot-stop-post-apps.sh
 
 [Install]
 WantedBy=multi-user.target
@@ -397,12 +397,12 @@ User=${GENERIC_USER}
 Group=docker
 Restart=on-failure
 RestartSec=2
-ExecStartPre=-/home/server/boot-start-pre-container-apps.sh
+ExecStartPre=/home/server/boot-start-pre-container-apps.sh
 ExecStart=/usr/local/bin/boot-container-apps/boot-container-start.sh /home/server
-ExecStartPost=-/home/server/boot-start-post-container-apps.sh
-ExecStopPre=-/home/server/boot-stop-pre-container-apps.sh
+ExecStartPost=/home/server/boot-start-post-container-apps.sh
+ExecStopPre=/home/server/boot-stop-pre-container-apps.sh
 ExecStop=/usr/local/bin/boot-container-apps/boot-container-stop.sh /home/server
-ExecStopPost=-/home/server/boot-stop-post-container-apps.sh
+ExecStopPost=/home/server/boot-stop-post-container-apps.sh
 
 [Install]
 WantedBy=multi-user.target
