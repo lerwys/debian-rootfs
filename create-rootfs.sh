@@ -54,6 +54,7 @@ sudo chroot ${ROOTFS} apt-get install -y \
     vim \
     git \
     ntp \
+    screen \
     resolvconf \
     telnet \
     dnsutils \
