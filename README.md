@@ -43,11 +43,24 @@ Then, a tar.gz must be created with the rootfs contents:
 
     ./create-tar-rootfs.sh
 
-Finally, the docker image can be built:
+Copy the recently created image to a HTTP server
 
-    mkdir -p build && \
-        cd build && \
-        cp ../rootfs.tar.gz .
+The new and space-conscious way of bulding the image is to replace
+the ENV `ENV ROOTFS_URL` to a URL containing the .rootfs.tar.gz file.
+This is needed so we don't need to left the rootfs.tar.gz file in a
+docker layer. Instead we can just transfer the tar.gz file via `curl`
+and remote it in the same layer.
+
+    Change the URL `ENV ROOTFS_URL` in Dockerfile.rootfs to the URL
+    containing the rootfs.tar.gz
+
+Create a `build` directory, as we won't be able to send the rootfs
+filesystem to the docker daemon:
+
+    mkdir build && \
+    cd build
+
+Build the image
 
     docker build \
         --build-arg SOURCE_COMMIT=$(git describe --dirty --always --abbrev=10) \
