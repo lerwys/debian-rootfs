@@ -220,6 +220,7 @@ none                 /run.rw   tmpfs   defaults   0 0
 none                 /var/lib/sudo.rw   tmpfs   defaults   0 0
 none                 /etc/docker.rw   tmpfs   defaults   0 0
 none                 /var/lib/docker   tmpfs   defaults   0 0
+none                 /var/lib/containerd   tmpfs   defaults   0 0
 EOF
 "
 
