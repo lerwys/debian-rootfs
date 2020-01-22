@@ -200,6 +200,7 @@ sudo chmod +x ${ROOTFS}/etc/network/if-down.d/222epicsbcast
 
 # Create .rw folders to mount as overlay
 sudo mkdir -p ${ROOTFS}/var/lib/nfs.rw
+sudo mkdir -p ${ROOTFS}/var/lib/sudo.rw
 sudo mkdir -p ${ROOTFS}/run.rw
 sudo mkdir -p ${ROOTFS}/etc/docker.rw
 
@@ -216,6 +217,7 @@ none                 /var/log   tmpfs   defaults   0 0
 none                 /var/lib/dhcp   tmpfs   defaults   0 0
 none                 /var/lib/nfs.rw   tmpfs   defaults   0 0
 none                 /run.rw   tmpfs   defaults   0 0
+none                 /var/lib/sudo.rw   tmpfs   defaults   0 0
 none                 /etc/docker.rw   tmpfs   defaults   0 0
 none                 /var/lib/docker   tmpfs   defaults   0 0
 EOF
@@ -268,6 +270,28 @@ EOF
 "
 
 sudo chroot ${ROOTFS} systemctl enable mount-nfs-overlay
+
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-sudo-overlay.service
+[Unit]
+Description=Mount /var/lib/sudo as an overlay filesystem
+RequiresMountsFor=/var/lib/sudo.rw
+Before=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/bin/sh -c \" \\\\
+    /bin/mkdir -p /var/lib/sudo.rw/rw && \\\\
+    /bin/mkdir -p /var/lib/sudo.rw/workdir && \\\\
+    /bin/mount -t overlay overlay \\\\
+        -olowerdir=/var/lib/sudo,upperdir=/var/lib/sudo.rw/rw,workdir=/var/lib/sudo.rw/workdir /var/lib/sudo \\\\
+\"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+"
+
+sudo chroot ${ROOTFS} systemctl enable mount-sudo-overlay
 
 sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-run-overlay.service
 [Unit]
