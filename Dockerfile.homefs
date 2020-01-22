@@ -1,4 +1,4 @@
-FROM debian:9.8
+FROM debian:9.9
 
 # Add the option to set the git commit as metadata
 # (This arg is set automatically in the Docker Cloud builds)
@@ -20,7 +20,21 @@ WORKDIR /
 
 COPY homefs.tar.gz /
 
-RUN mkdir -p /homefs && \
+# Use bsdtar, as tar fails with:
+# "Directory renamed before its status could be extracted"
+RUN echo "nameserver 10.0.0.71"  >> /etc/resolv.conf && \
+    apt-get update && \
+    apt-get install -y \
+        bsdtar \
+        curl && \
+    cp $(which tar) $(which tar)~ && \
+    ln -sf $(which bsdtar) $(which tar) && \
+    mkdir -p /homefs && \
     cd /homefs && \
     tar -xvpzf /homefs.tar.gz --numeric-owner && \
+    mv $(which tar)~ $(which tar) && \
+    apt-get remove -y \
+        curl && \
+    apt-get autoremove -y && \
+    rm -rf /var/lib/apt/lists/ && \
     rm -rf /homefs.tar.gz
