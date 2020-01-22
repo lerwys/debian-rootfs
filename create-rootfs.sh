@@ -198,6 +198,9 @@ sudo chmod +x ${ROOTFS}/etc/network/if-down.d/222epicsbcast
 # fstab
 ###############################################################################
 
+# Create tmpfs directories
+sudo mkdir -p ${ROOTFS}/var/lib/containerd
+
 # Create .rw folders to mount as overlay
 sudo mkdir -p ${ROOTFS}/var/lib/nfs.rw
 sudo mkdir -p ${ROOTFS}/var/lib/sudo.rw
