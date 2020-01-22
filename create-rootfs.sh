@@ -199,8 +199,7 @@ sudo chmod +x ${ROOTFS}/etc/network/if-down.d/222epicsbcast
 ###############################################################################
 
 # Create .rw folders to mount as overlay
-sudo mkdir -p ${ROOTFS}/var.rw
-sudo mkdir -p ${ROOTFS}/run.rw
+sudo mkdir -p ${ROOTFS}/var/lib/nfs.rw
 sudo mkdir -p ${ROOTFS}/etc/docker.rw
 
 # Setup Docker special folder as we are in a NFS, and some folders
@@ -213,9 +212,10 @@ none                 /tmp       tmpfs   defaults   0 0
 none                 /var/tmp   tmpfs   defaults   0 0
 none                 /media     tmpfs   defaults   0 0
 none                 /var/log   tmpfs   defaults   0 0
-none                 /var.rw   tmpfs   defaults   0 0
-none                 /run.rw   tmpfs   defaults   0 0
+none                 /var/lib/dhcp   tmpfs   defaults   0 0
+none                 /var/lib/nfs.rw   tmpfs   defaults   0 0
 none                 /etc/docker.rw   tmpfs   defaults   0 0
+none                 /var/lib/docker   tmpfs   defaults   0 0
 EOF
 "
 
@@ -245,19 +245,19 @@ EOF
 
 sudo chroot ${ROOTFS} systemctl enable mount-docker-overlay
 
-sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-var-overlay.service
+sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-nfs-overlay.service
 [Unit]
-Description=Mount /var as an overlay filesystem
-RequiresMountsFor=/var.rw
+Description=Mount /var/lib/nfs as an overlay filesystem
+RequiresMountsFor=/var/lib/nfs.rw
 Before=docker.service
 Requires=docker.service
 
 [Service]
 ExecStart=/bin/sh -c \" \\\\
-    /bin/mkdir -p /var.rw/rw && \\\\
-    /bin/mkdir -p /var.rw/workdir && \\\\
+    /bin/mkdir -p /var/lib/nfs.rw/rw && \\\\
+    /bin/mkdir -p /var/lib/nfs.rw/workdir && \\\\
     /bin/mount -t overlay overlay \\\\
-        -olowerdir=/var,upperdir=/var.rw/rw,workdir=/var.rw/workdir /var \\\\
+        -olowerdir=/var/lib/nfs,upperdir=/var/lib/nfs.rw/rw,workdir=/var/lib/nfs.rw/workdir /var/lib/nfs \\\\
 \"
 
 [Install]
@@ -265,29 +265,7 @@ WantedBy=multi-user.target
 EOF
 "
 
-sudo chroot ${ROOTFS} systemctl enable mount-var-overlay
-
-sudo bash -c "cat << EOF > ${ROOTFS}/etc/systemd/system/mount-run-overlay.service
-[Unit]
-Description=Mount /run as an overlay filesystem
-RequiresMountsFor=/run.rw
-Before=docker.service
-Requires=docker.service
-
-[Service]
-ExecStart=/bin/sh -c \" \\\\
-    /bin/mkdir -p /run.rw/rw && \\\\
-    /bin/mkdir -p /run.rw/workdir && \\\\
-    /bin/mount -t overlay overlay \\\\
-        -olowerdir=/run,upperdir=/run.rw/rw,workdir=/run.rw/workdir /run \\\\
-\"
-
-[Install]
-WantedBy=multi-user.target
-EOF
-"
-
-sudo chroot ${ROOTFS} systemctl enable mount-run-overlay
+sudo chroot ${ROOTFS} systemctl enable mount-nfs-overlay
 
 ###############################################################################
 # Add common folder for EPICS autosave
